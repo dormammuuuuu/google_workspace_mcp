@@ -42,6 +42,7 @@ from core.server import server
 from core.config import get_transport_mode
 from gdrive.drive_helpers import (
     DRIVE_QUERY_PATTERNS,
+    normalize_drive_query,
     FOLDER_MIME_TYPE,
     GOOGLE_APPS_MIME_PREFIX,
     GOOGLE_DOCS_IMPORT_FORMATS,
@@ -224,6 +225,11 @@ async def search_drive_files(
         f"[search_drive_files] Invoked. Email: '{user_google_email}', query_len={len(query)}, "
         f"file_type: '{file_type}', include_trashed: {include_trashed}"
     )
+
+    normalized = normalize_drive_query(query)
+    if normalized != query:
+        logger.info("[search_drive_files] Rewrote function-style contains(...) into Drive query syntax")
+        query = normalized
 
     # Check if the query looks like a structured Drive query or free text
     # Look for Drive API operators and structured query patterns
