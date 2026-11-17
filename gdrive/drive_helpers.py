@@ -254,6 +254,29 @@ def has_explicit_trashed_clause(query: str) -> bool:
     return bool(TRASHED_CLAUSE_PATTERN.search(without_literals))
 
 
+# Function-call style that models often write and Drive rejects with HTTP 400:
+#   contains(name,'Budget')  ->  name contains 'Budget'
+# (also fullText, and v2's `title`, which v3 calls `name`).
+FUNCTION_STYLE_CONTAINS_PATTERN = re.compile(
+    r"\bcontains\s*\(\s*(name|title|fullText)\s*,\s*('(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\")\s*\)",
+    re.IGNORECASE,
+)
+
+
+def normalize_drive_query(query: str) -> str:
+    """Rewrite ``contains(field,'value')`` into Drive's ``field contains 'value'``; leave everything else as is."""
+
+    def _repl(match: "re.Match[str]") -> str:
+        field = "fullText" if match.group(1).lower() == "fulltext" else "name"
+        literal = match.group(2)
+        if literal.startswith('"'):
+            inner = literal[1:-1].replace('\\"', '"').replace("'", "\\'")
+            literal = f"'{inner}'"
+        return f"{field} contains {literal}"
+
+    return FUNCTION_STYLE_CONTAINS_PATTERN.sub(_repl, query)
+
+
 # Precompiled regex patterns for Drive query detection
 DRIVE_QUERY_PATTERNS = [
     re.compile(r'\b\w+\s*(=|!=|>|<)\s*[\'"].*?[\'"]', re.IGNORECASE),  # field = 'value'
