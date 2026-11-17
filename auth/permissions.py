@@ -53,6 +53,8 @@ from auth.scopes import (
     SCRIPT_DEPLOYMENTS_READONLY_SCOPE,
     SCRIPT_PROCESSES_READONLY_SCOPE,
     SCRIPT_METRICS_SCOPE,
+    ADMIN_READONLY_SCOPES,
+    ADMIN_SCOPES,
 )
 
 logger = logging.getLogger(__name__)
@@ -129,6 +131,13 @@ SERVICE_PERMISSION_LEVELS: Dict[str, List[Tuple[str, List[str]]]] = {
                 SCRIPT_METRICS_SCOPE,
                 DRIVE_FILE_SCOPE,
             ],
+        ),
+    ],
+    "admin": [
+        ("readonly", ADMIN_READONLY_SCOPES),
+        (
+            "full",
+            [scope for scope in ADMIN_SCOPES if scope not in ADMIN_READONLY_SCOPES],
         ),
     ],
 }

@@ -1,5 +1,7 @@
 import os
 import sys
+import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -12,6 +14,43 @@ os.environ["MCP_ENABLE_OAUTH21"] = "false"
 os.environ["WORKSPACE_MCP_STATELESS_MODE"] = "false"
 
 import main
+from auth.service_decorator import SERVICE_CONFIGS
+from core.tool_tier_loader import ToolTierLoader
+
+
+def test_admin_service_uses_directory_discovery_api():
+    assert main.SERVICE_MODULES["admin"] == "gadmin.admin_tools"
+    assert SERVICE_CONFIGS["admin"] == {
+        "service": "admin",
+        "version": "directory_v1",
+    }
+
+
+def test_admin_tool_tiers_keep_mutations_in_complete():
+    loader = ToolTierLoader()
+
+    assert loader.get_tools_for_tier("core", ["admin"]) == [
+        "list_admin_users",
+        "get_admin_user",
+        "list_admin_groups",
+        "get_admin_group",
+        "list_admin_group_members",
+        "list_admin_org_units",
+    ]
+    assert loader.get_tools_for_tier("extended", ["admin"]) == []
+    assert loader.get_tools_for_tier("complete", ["admin"]) == [
+        "manage_admin_user",
+        "manage_admin_group",
+        "manage_admin_group_membership",
+        "manage_admin_alias",
+        "manage_admin_org_unit",
+    ]
+
+
+def test_claude_plugin_lists_admin_as_selectable_service():
+    config = json.loads((Path(__file__).parents[1] / ".claude-plugin/plugin.json").read_text())
+
+    assert "admin" in config["userConfig"]["tools"]["description"]
 
 
 def test_main_rejects_invalid_max_file_bytes_at_startup(monkeypatch, capsys):

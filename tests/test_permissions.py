@@ -138,6 +138,15 @@ class TestGetScopesForPermission:
         assert TASKS_SCOPE in scopes
         assert TASKS_READONLY_SCOPE in scopes
 
+    def test_admin_levels_separate_readonly_and_full_scopes(self):
+        readonly = get_scopes_for_permission("admin", "readonly")
+        full = get_scopes_for_permission("admin", "full")
+
+        assert "https://www.googleapis.com/auth/admin.directory.user.readonly" in readonly
+        assert "https://www.googleapis.com/auth/admin.directory.user" not in readonly
+        assert "https://www.googleapis.com/auth/admin.directory.user" in full
+        assert set(readonly) < set(full)
+
 
 @pytest.fixture(autouse=True)
 def _reset_permissions_state():

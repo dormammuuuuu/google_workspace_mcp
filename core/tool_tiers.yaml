@@ -181,3 +181,19 @@ appscript:
     - list_script_processes
     - get_script_metrics
   complete: []
+
+admin:
+  core:
+    - list_admin_users
+    - get_admin_user
+    - list_admin_groups
+    - get_admin_group
+    - list_admin_group_members
+    - list_admin_org_units
+  extended: []
+  complete:
+    - manage_admin_user
+    - manage_admin_group
+    - manage_admin_group_membership
+    - manage_admin_alias
+    - manage_admin_org_unit

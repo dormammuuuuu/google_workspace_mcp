@@ -595,6 +595,7 @@ SERVICE_CONFIGS = {
     "people": {"service": "people", "version": "v1"},
     "customsearch": {"service": "customsearch", "version": "v1"},
     "script": {"service": "script", "version": "v1"},
+    "admin": {"service": "admin", "version": "directory_v1"},
 }
 
 

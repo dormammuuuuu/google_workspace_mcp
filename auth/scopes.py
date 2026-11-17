@@ -66,6 +66,32 @@ TASKS_READONLY_SCOPE = "https://www.googleapis.com/auth/tasks.readonly"
 CONTACTS_SCOPE = "https://www.googleapis.com/auth/contacts"
 CONTACTS_READONLY_SCOPE = "https://www.googleapis.com/auth/contacts.readonly"
 
+# Google Admin SDK Directory API scopes
+ADMIN_USER_SCOPE = "https://www.googleapis.com/auth/admin.directory.user"
+ADMIN_USER_READONLY_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.user.readonly"
+)
+ADMIN_USER_ALIAS_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.user.alias"
+)
+ADMIN_USER_ALIAS_READONLY_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.user.alias.readonly"
+)
+ADMIN_GROUP_SCOPE = "https://www.googleapis.com/auth/admin.directory.group"
+ADMIN_GROUP_READONLY_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.group.readonly"
+)
+ADMIN_GROUP_MEMBER_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.group.member"
+)
+ADMIN_GROUP_MEMBER_READONLY_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.group.member.readonly"
+)
+ADMIN_ORGUNIT_SCOPE = "https://www.googleapis.com/auth/admin.directory.orgunit"
+ADMIN_ORGUNIT_READONLY_SCOPE = (
+    "https://www.googleapis.com/auth/admin.directory.orgunit.readonly"
+)
+
 # Google Custom Search API scope
 CUSTOM_SEARCH_SCOPE = "https://www.googleapis.com/auth/cse"
 
@@ -102,6 +128,11 @@ SCOPE_HIERARCHY = {
     SLIDES_SCOPE: {SLIDES_READONLY_SCOPE},
     TASKS_SCOPE: {TASKS_READONLY_SCOPE},
     CONTACTS_SCOPE: {CONTACTS_READONLY_SCOPE},
+    ADMIN_USER_SCOPE: {ADMIN_USER_READONLY_SCOPE},
+    ADMIN_USER_ALIAS_SCOPE: {ADMIN_USER_ALIAS_READONLY_SCOPE},
+    ADMIN_GROUP_SCOPE: {ADMIN_GROUP_READONLY_SCOPE},
+    ADMIN_GROUP_MEMBER_SCOPE: {ADMIN_GROUP_MEMBER_READONLY_SCOPE},
+    ADMIN_ORGUNIT_SCOPE: {ADMIN_ORGUNIT_READONLY_SCOPE},
     CHAT_WRITE_SCOPE: {CHAT_READONLY_SCOPE},
     CHAT_SPACES_SCOPE: {CHAT_SPACES_READONLY_SCOPE},
     FORMS_BODY_SCOPE: {FORMS_BODY_READONLY_SCOPE},
@@ -180,6 +211,23 @@ TASKS_SCOPES = [TASKS_SCOPE, TASKS_READONLY_SCOPE]
 
 CONTACTS_SCOPES = [CONTACTS_SCOPE, CONTACTS_READONLY_SCOPE]
 
+ADMIN_READONLY_SCOPES = [
+    ADMIN_USER_READONLY_SCOPE,
+    ADMIN_USER_ALIAS_READONLY_SCOPE,
+    ADMIN_GROUP_READONLY_SCOPE,
+    ADMIN_GROUP_MEMBER_READONLY_SCOPE,
+    ADMIN_ORGUNIT_READONLY_SCOPE,
+]
+
+ADMIN_SCOPES = [
+    *ADMIN_READONLY_SCOPES,
+    ADMIN_USER_SCOPE,
+    ADMIN_USER_ALIAS_SCOPE,
+    ADMIN_GROUP_SCOPE,
+    ADMIN_GROUP_MEMBER_SCOPE,
+    ADMIN_ORGUNIT_SCOPE,
+]
+
 CUSTOM_SEARCH_SCOPES = [CUSTOM_SEARCH_SCOPE]
 
 SCRIPT_SCOPES = [
@@ -208,6 +256,7 @@ TOOL_SCOPES_MAP = {
     "contacts": CONTACTS_SCOPES,
     "search": CUSTOM_SEARCH_SCOPES,
     "appscript": SCRIPT_SCOPES,
+    "admin": ADMIN_SCOPES,
 }
 
 # Tool-to-read-only-scopes mapping
@@ -230,6 +279,7 @@ TOOL_READONLY_SCOPES_MAP = {
         SCRIPT_METRICS_SCOPE,
         DRIVE_READONLY_SCOPE,
     ],
+    "admin": ADMIN_READONLY_SCOPES,
 }
 
 

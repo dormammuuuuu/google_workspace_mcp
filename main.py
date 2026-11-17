@@ -225,6 +225,7 @@ SERVICE_MODULES = {
     "contacts": "gcontacts.contacts_tools",
     "search": "gsearch.search_tools",
     "appscript": "gappsscript.apps_script_tools",
+    "admin": "gadmin.admin_tools",
 }
 VALID_SERVICES = frozenset(SERVICE_MODULES)
 
@@ -243,6 +244,7 @@ SERVICE_ICONS = {
     "contacts": "👤",
     "search": "🔍",
     "appscript": "📜",
+    "admin": "🔐",
 }
 
 

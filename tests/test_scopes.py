@@ -229,3 +229,27 @@ class TestGranularPermissionsScopes:
         with_permissions = get_scopes_for_tools(["drive"])
         assert GMAIL_READONLY_SCOPE in with_permissions
         assert DRIVE_READONLY_SCOPE not in with_permissions
+
+
+def test_admin_directory_has_matching_full_and_readonly_scopes():
+    from auth import scopes as scopes_module
+
+    readonly = set(scopes_module.TOOL_READONLY_SCOPES_MAP["admin"])
+    full = set(scopes_module.TOOL_SCOPES_MAP["admin"])
+
+    expected_readonly = {
+        "https://www.googleapis.com/auth/admin.directory.user.readonly",
+        "https://www.googleapis.com/auth/admin.directory.user.alias.readonly",
+        "https://www.googleapis.com/auth/admin.directory.group.readonly",
+        "https://www.googleapis.com/auth/admin.directory.group.member.readonly",
+        "https://www.googleapis.com/auth/admin.directory.orgunit.readonly",
+    }
+    expected_full = {
+        "https://www.googleapis.com/auth/admin.directory.user",
+        "https://www.googleapis.com/auth/admin.directory.user.alias",
+        "https://www.googleapis.com/auth/admin.directory.group",
+        "https://www.googleapis.com/auth/admin.directory.group.member",
+        "https://www.googleapis.com/auth/admin.directory.orgunit",
+    }
+    assert readonly == expected_readonly
+    assert expected_readonly | expected_full == full
